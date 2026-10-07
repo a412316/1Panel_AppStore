@@ -112,20 +112,6 @@ class GitRepository(ABC):
         pass
 
 
-class PanelSyncer(ABC):
-    """面板同步器抽象接口"""
-
-    @abstractmethod
-    def sync_apps(self) -> bool:
-        """
-        同步应用到面板
-
-        Returns:
-            操作是否成功
-        """
-        pass
-
-
 class ConfigManager(ABC):
     """配置管理器抽象接口"""
 
@@ -142,9 +128,4 @@ class ConfigManager(ABC):
     @abstractmethod
     def save_config(self) -> None:
         """保存配置到文件"""
-        pass
-
-    @abstractmethod
-    def get_panel_config(self, panel_name: str) -> Dict[str, Any]:
-        """获取面板配置"""
         pass

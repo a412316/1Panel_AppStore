@@ -31,10 +31,8 @@ auto_action/
 │   ├── retry.py               # 重试与熔断机制
 │   ├── version_checkers.py    # 版本检查器（多数据源fallback）
 │   ├── git_repository.py      # Git仓库操作
-│   ├── panel_syncer.py        # 面板同步器
 │   ├── app_manager.py         # 应用管理器
-│   ├── config.json            # 应用配置（实际生效）
-│   └── config.ini(.example)   # 系统配置（example为模板）
+│   └── config.json            # 应用配置（实际生效）
 └── logs/                       # 日志输出目录
 ```
 
@@ -73,13 +71,9 @@ python main.py --log-level DEBUG
 ### 4. 健壮的Git操作
 - 🔄 **自动重试**: 网络失败时自动重试
 - 📦 **原子操作**: 确保Git操作的原子性
-- 🔐 **认证管理**: 安全的凭据管理
 - 🔙 **备份恢复**: 支持操作备份和恢复
 
-### 5. 多面板支持
-- 🌐 **多面板同步**: 同时同步到多个1Panel面板
-- 🔍 **状态检查**: 检查面板连接状态
-- ⚠️ **错误隔离**: 单个面板失败不影响其他面板
+> 注: Git推送认证依赖运行环境的凭据（SSH密钥或credential helper）。
 
 ## 🚀 推荐用法
 
@@ -95,7 +89,7 @@ result = updater.run_update()
 app_manager = AppManager()
 apps_to_update = app_manager.get_apps_needing_update()
 results = app_manager.update_apps(apps_to_update)
-app_manager.commit_and_sync()
+app_manager.commit_and_push()
 ```
 
 > 注: 旧版兼容层（auto_action/update_*.py、compatibility.py 等）已移除。
@@ -103,7 +97,7 @@ app_manager.commit_and_sync()
 ## 📖 核心组件说明
 
 ### 1. 配置管理器 (EnhancedConfigManager)
-- 📁 **统一配置**: 管理应用配置和面板配置
+- 📁 **统一配置**: 管理应用配置
 - ✅ **配置验证**: 自动验证配置文件的完整性和正确性
 - 💾 **安全保存**: 原子性保存，包含备份和恢复机制
 - 🔧 **热重载**: 支持配置文件热重载
@@ -121,7 +115,6 @@ app_manager.commit_and_sync()
 - 🔄 **重试机制**: 网络失败时自动重试
 
 ### 4. Git仓库操作器 (EnhancedGitRepository)
-- 🔐 **安全认证**: 安全的Git凭据管理
 - 🔄 **原子操作**: 确保Git操作的原子性
 - 📦 **备份恢复**: 支持操作备份和恢复
 - 📊 **状态查询**: 详细的仓库状态信息
@@ -155,32 +148,11 @@ python test_refactored.py
 }
 ```
 
-### config.ini (系统配置)
-```ini
-[gitea]
-username = your_username
-password = your_password
-email = your_email@example.com
-
-[host_panel1]
-host = panel1.example.com
-port = 10086
-panel_token = your_token
-type = http
-
-[host_panel2]
-host = panel2.example.com
-port = 10086
-panel_token = your_token
-type = https
-```
-
 ## 📈 性能改进
 
 ### 并行处理
 - **版本检查**: 并行检查多个应用的最新版本
 - **应用更新**: 支持并行更新多个应用
-- **面板同步**: 并行同步到多个面板
 
 ### 缓存优化
 - **版本缓存**: 避免重复的版本检查请求
@@ -219,7 +191,7 @@ python -c "from auto_action.core import get_config_manager; print(get_config_man
 - ⚡ 并行处理支持
 - 🛡️ 完善的错误处理
 - 🎯 智能版本检查
-- 🌐 多面板支持
+- 🗑️ 移除1Panel面板同步功能，仅维护Git仓库
 
 ### v1.0.0 (原版本)
 - 基础的功能实现

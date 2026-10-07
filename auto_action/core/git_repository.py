@@ -12,7 +12,6 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime
 
 from git import Repo, InvalidGitRepositoryError, GitCommandError
-from git.exc import GitError
 
 from .interfaces import GitRepository
 from .exceptions import GitOperationError
@@ -25,16 +24,14 @@ logger = get_logger()
 class EnhancedGitRepository(GitRepository):
     """增强的Git仓库操作实现"""
 
-    def __init__(self, repo_path: str, git_config: Optional[Dict[str, str]] = None):
+    def __init__(self, repo_path: str):
         """
         初始化Git仓库
 
         Args:
             repo_path: 仓库路径
-            git_config: Git配置（用户名、邮箱等）
         """
         self.repo_path = Path(repo_path).absolute()
-        self.git_config = git_config or {}
         self._repo: Optional[Repo] = None
 
         self._validate_repo()
@@ -48,37 +45,6 @@ class EnhancedGitRepository(GitRepository):
             self._repo = Repo(self.repo_path)
         except InvalidGitRepositoryError:
             raise GitOperationError(f"路径不是Git仓库: {self.repo_path}")
-
-    def _ensure_git_config(self) -> None:
-        """确保Git配置已设置"""
-        if not self._repo:
-            raise GitOperationError("仓库未初始化")
-
-        # 设置用户名
-        if 'username' in self.git_config:
-            try:
-                self._repo.config_writer().set_value("user", "name", self.git_config['username'])
-            except GitError as e:
-                logger.warning(f"设置Git用户名失败: {e}")
-
-        # 设置邮箱
-        if 'email' in self.git_config:
-            try:
-                self._repo.config_writer().set_value("user", "email", self.git_config['email'])
-            except GitError as e:
-                logger.warning(f"设置Git邮箱失败: {e}")
-
-    def _configure_credentials(self) -> None:
-        """配置Git认证信息"""
-        if not self._repo:
-            return
-
-        # 设置密码（用于HTTPS认证）
-        if 'password' in self.git_config:
-            try:
-                self._repo.config_writer().set_value("user", "password", self.git_config['password'])
-            except GitError as e:
-                logger.warning(f"设置Git密码失败: {e}")
 
     @retry(max_attempts=3, delay=1.0)
     def commit_and_push(self, message: str) -> bool:
@@ -100,10 +66,6 @@ class EnhancedGitRepository(GitRepository):
         logger.info(f"开始提交并推送更改: {message}")
 
         try:
-            # 配置Git用户信息
-            # self._ensure_git_config()
-            # self._configure_credentials()
-
             # 检查是否有更改
             if not self.has_changes():
                 logger.info("没有需要提交的更改")
@@ -120,20 +82,6 @@ class EnhancedGitRepository(GitRepository):
             # 推送到远程仓库
             if 'origin' in [remote.name for remote in self._repo.remotes]:
                 origin = self._repo.remote('origin')
-
-                # # 配置认证URL（如果提供了密码）
-                # if 'username' in self.git_config and 'password' in self.git_config:
-                #     username = self.git_config['username']
-                #     password = self.git_config['password']
-                #     for url in origin.urls:
-                #         if 'https://' in url:
-                #             auth_url = url.replace(
-                #                 'https://',
-                #                 f"https://{username}:{password}@"
-                #             )
-                #             print(auth_url)
-                #             origin.set_url(auth_url)
-                #             break
 
                 push_result = origin.push()
                 for push_info in push_result:
@@ -167,9 +115,6 @@ class EnhancedGitRepository(GitRepository):
         logger.info("开始拉取并重置到远程最新状态")
 
         try:
-            # 配置认证信息
-            self._configure_credentials()
-
             # 获取远程更新
             origin = self._repo.remote('origin')
             origin.fetch()

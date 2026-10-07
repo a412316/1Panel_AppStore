@@ -105,8 +105,6 @@ def test_minio_release_tag_parsing():
     print("\n🔍 测试MinIO风格标签解析...")
 
     try:
-        import shutil
-        import tempfile
         from auto_action.core import DockerHubVersionChecker, EnhancedConfigManager
 
         checker = DockerHubVersionChecker()
@@ -140,12 +138,8 @@ def test_minio_release_tag_parsing():
         assert checker._parse_minio_release_tags(['latest', 'v1.0.0'], 'RELEASE.2026-09-03T13-18-01Z-distroless') is None
 
         # 配置中silo已启用该方案且字段能透传到AppInfo
-        # （用临时目录拼一份配置，避免依赖本机是否存在config.ini）
         core_dir = Path(__file__).parent.parent / "auto_action" / "core"
-        with tempfile.TemporaryDirectory() as tmp_dir:
-            shutil.copy(core_dir / "config.json", Path(tmp_dir) / "config.json")
-            shutil.copy(core_dir / "config.ini.example", Path(tmp_dir) / "config.ini")
-            app_info = EnhancedConfigManager(tmp_dir).get_app_info('silo')
+        app_info = EnhancedConfigManager(core_dir).get_app_info('silo')
         assert app_info is not None and app_info.tag_scheme == 'minio_release', "silo的tag_scheme配置未生效"
 
         print("✅ MinIO风格标签解析测试通过")

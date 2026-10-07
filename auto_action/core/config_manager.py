@@ -6,27 +6,11 @@
 
 import json
 import os
-import configparser
 from pathlib import Path
 from typing import Dict, Any, Optional, List
-from dataclasses import dataclass
 
 from .interfaces import ConfigManager, AppInfo
 from .exceptions import ConfigurationError, ValidationError
-
-
-@dataclass
-class PanelConfig:
-    """面板配置数据类"""
-    host: str
-    port: str
-    panel_token: str
-    connection_type: str = "http"
-
-    def validate(self) -> None:
-        """验证面板配置"""
-        if not all([self.host, self.port, self.panel_token]):
-            raise ValidationError(f"面板配置不完整: {self}")
 
 
 class EnhancedConfigManager(ConfigManager):
@@ -42,10 +26,8 @@ class EnhancedConfigManager(ConfigManager):
 
         self.config_dir = Path(config_dir)
         self.apps_config_file = self.config_dir / "config.json"
-        self.ini_config_file = self.config_dir / "config.ini"
 
         self._apps_config: Optional[Dict[str, Any]] = None
-        self._ini_config: Optional[configparser.ConfigParser] = None
 
         self._load_configs()
 
@@ -54,19 +36,10 @@ class EnhancedConfigManager(ConfigManager):
         if not self.apps_config_file.exists():
             raise ConfigurationError(f"应用配置文件不存在: {self.apps_config_file}")
 
-        if not self.ini_config_file.exists():
-            raise ConfigurationError(f"INI配置文件不存在: {self.ini_config_file}")
-
         try:
             self._apps_config = json.loads(self.apps_config_file.read_text(encoding='utf-8'))
         except json.JSONDecodeError as e:
             raise ConfigurationError(f"应用配置文件格式错误: {e}")
-
-        self._ini_config = configparser.ConfigParser()
-        try:
-            self._ini_config.read(self.ini_config_file, encoding='utf-8')
-        except configparser.Error as e:
-            raise ConfigurationError(f"INI配置文件读取错误: {e}")
 
     def get_apps_config(self) -> Dict[str, Any]:
         """获取应用配置"""
@@ -166,53 +139,6 @@ class EnhancedConfigManager(ConfigManager):
             # 清理备份文件
             if backup_file.exists():
                 backup_file.unlink()
-
-    def get_panel_config(self, panel_name: str) -> PanelConfig:
-        """获取面板配置"""
-        if self._ini_config is None:
-            raise ConfigurationError("INI配置未加载")
-
-        if not self._ini_config.has_section(panel_name):
-            raise ConfigurationError(f"面板配置段 {panel_name} 不存在")
-
-        try:
-            config = PanelConfig(
-                host=self._get_ini_value(panel_name, 'host'),
-                port=self._get_ini_value(panel_name, 'port'),
-                panel_token=self._get_ini_value(panel_name, 'panel_token'),
-                connection_type=self._get_ini_value(panel_name, 'type', 'http')
-            )
-            config.validate()
-            return config
-        except Exception as e:
-            raise ConfigurationError(f"解析面板配置 {panel_name} 失败: {e}")
-
-    def _get_ini_value(self, section: str, key: str, default: str = '') -> str:
-        """获取INI配置值"""
-        if self._ini_config is None:
-            raise ConfigurationError("INI配置未加载")
-
-        try:
-            value = self._ini_config.get(section, key)
-            return value.strip().strip('"').strip("'")
-        except (configparser.NoSectionError, configparser.NoOptionError):
-            if default:
-                return default
-            raise ConfigurationError(f"配置项 {section}.{key} 不存在")
-
-    def get_git_config(self) -> Dict[str, str]:
-        """获取Git配置"""
-        if self._ini_config is None:
-            raise ConfigurationError("INI配置未加载")
-
-        if not self._ini_config.has_section('gitea'):
-            raise ConfigurationError("Git配置段 [gitea] 不存在")
-
-        return {
-            'username': self._get_ini_value('gitea', 'username'),
-            'password': self._get_ini_value('gitea', 'password'),
-            'email': self._get_ini_value('gitea', 'email', '')
-        }
 
     def validate_configs(self) -> None:
         """验证所有配置"""

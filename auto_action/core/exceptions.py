@@ -34,11 +34,6 @@ class GitOperationError(AppStoreException):
     pass
 
 
-class SyncError(AppStoreException):
-    """同步错误异常"""
-    pass
-
-
 class NetworkError(AppStoreException):
     """网络请求错误异常"""
     pass

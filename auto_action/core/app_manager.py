@@ -13,7 +13,7 @@ from typing import List, Dict, Optional, Tuple, Any
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 
-from .interfaces import AppUpdater, AppInfo, UpdateResult, ConfigManager, GitRepository, PanelSyncer
+from .interfaces import AppUpdater, AppInfo, UpdateResult, ConfigManager, GitRepository
 from .exceptions import AppUpdateError, ValidationError
 from .logger import get_logger
 from .version_checkers import VersionCheckerFactory, BatchVersionChecker
@@ -270,7 +270,6 @@ class AppManager:
     def __init__(self,
                  config_manager: Optional[ConfigManager] = None,
                  git_repo: Optional[GitRepository] = None,
-                 panel_syncer: Optional[PanelSyncer] = None,
                  parallel_update: bool = False,
                  max_workers: int = 4):
         """
@@ -279,13 +278,11 @@ class AppManager:
         Args:
             config_manager: 配置管理器
             git_repo: Git仓库操作器
-            panel_syncer: 面板同步器
             parallel_update: 是否并行更新应用
             max_workers: 最大并行工作数
         """
         self.config_manager = config_manager or get_config_manager()
         self.git_repo = git_repo
-        self.panel_syncer = panel_syncer
         self.parallel_update = parallel_update
         self.max_workers = max_workers
 
@@ -434,9 +431,9 @@ class AppManager:
 
         return results
 
-    def commit_and_sync(self, commit_message: Optional[str] = None) -> bool:
+    def commit_and_push(self, commit_message: Optional[str] = None) -> bool:
         """
-        提交更改并同步到面板
+        提交更改并推送到远程仓库
 
         Args:
             commit_message: 提交消息
@@ -469,22 +466,6 @@ class AppManager:
             except Exception as e:
                 logger.error(f"❌ Git操作异常: {e}")
                 success = False
-
-        # 同步到1Panel面板
-        if self.panel_syncer and success:
-            try:
-                sync_results = self.panel_syncer.sync_all_panels()
-                # 检查是否至少有一个面板同步成功
-                successful_panels = sum(1 for result in sync_results.values() if result)
-                total_panels = len(sync_results)
-
-                if successful_panels > 0:
-                    logger.info(f"✅ 1Panel面板同步成功 ({successful_panels}/{total_panels})")
-                else:
-                    logger.error(f"❌ 1Panel面板同步失败 (0/{total_panels})")
-                    # 面板同步失败不影响整体成功状态
-            except Exception as e:
-                logger.error(f"❌ 1Panel面板同步异常: {e}")
 
         return success
 
@@ -524,11 +505,11 @@ class AppManager:
 
             logger.info(f"更新结果统计: 成功 {len(successful_updates)}, 失败 {len(failed_updates)}")
 
-            # 4. 提交和同步（如果有成功更新的应用）
+            # 4. 提交和推送（如果有成功更新的应用）
             if successful_updates:
                 app_names = [r.app_name for r in successful_updates]
                 commit_message = f"更新应用版本: {', '.join(app_names)}"
-                self.commit_and_sync(commit_message)
+                self.commit_and_push(commit_message)
 
             # 5. 返回结果统计
             end_time = datetime.now()

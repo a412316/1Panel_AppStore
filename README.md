@@ -4,7 +4,7 @@
 
 ## 📋 项目简介
 
-1PanelAppStore是一个专业的1Panel应用商店自动管理工具，用于自动检测Docker应用更新，生成新的版本目录，并同步到本地1Panel面板的应用商店中。
+1PanelAppStore是一个专业的1Panel应用商店自动管理工具，用于自动检测Docker应用更新，生成新的版本目录，并提交推送到Git远程仓库。
 
 ### ✨ 核心特性
 
@@ -13,7 +13,6 @@
 - 🛡️ **健壮性**: 完善的错误处理、重试机制和故障恢复
 - 🎨 **用户友好**: 彩色日志输出、进度显示和详细的状态反馈
 - 🔧 **配置管理**: 统一的配置管理和验证机制
-- 🌐 **多面板支持**: 同时同步到多个1Panel面板
 - 📊 **操作审计**: 详细的操作日志和结果统计
 
 ## 🚀 快速开始
@@ -21,8 +20,7 @@
 ### 环境要求
 
 - Python 3.8+
-- Git
-- 1Panel面板运行环境
+- Git（推送到GitHub远程仓库，认证依赖运行环境的SSH密钥或credential helper）
 
 ### 安装依赖
 
@@ -61,10 +59,8 @@ python main.py --help
 │   │   ├── retry.py            # 重试与熔断机制
 │   │   ├── version_checkers.py # 版本检查器（多数据源fallback）
 │   │   ├── git_repository.py   # Git仓库操作
-│   │   ├── panel_syncer.py     # 面板同步器
 │   │   ├── app_manager.py      # 应用管理器
-│   │   ├── config.json         # 应用配置文件（实际生效）
-│   │   └── config.ini.example  # 系统配置示例
+│   │   └── config.json         # 应用配置文件（实际生效）
 ├── apps/                       # 应用定义目录
 │   └── [app_name]/             # 各应用目录
 ├── tests/                      # 测试文件
@@ -108,29 +104,6 @@ python main.py --help
 
 > 注意：`version` 必须与 `apps/<应用名>/` 下的版本目录名一致（完整 tag 作为目录名），否则更新时找不到源目录。
 
-### 系统配置 (auto_action/core/config.ini)
-
-复制 `config.ini.example` 为 `config.ini` 并填入实际配置：
-
-```ini
-[gitea]
-username = your_username
-password = your_password
-email = your_email@example.com
-
-[host_panel1]
-host = panel1.example.com
-port = 10086
-panel_token = your_panel_token
-type = http
-
-[host_panel2]
-host = panel2.example.com
-port = 10086
-panel_token = your_panel_token
-type = https
-```
-
 ## 🔧 高级功能
 
 ### 命令行选项
@@ -160,7 +133,7 @@ result = updater.run_update()
 app_manager = AppManager()
 apps_to_update = app_manager.get_apps_needing_update()
 results = app_manager.update_apps(apps_to_update)
-app_manager.commit_and_sync()
+app_manager.commit_and_push()
 ```
 
 ## 📊 性能特性
@@ -170,13 +143,12 @@ app_manager.commit_and_sync()
 - **版本检查**: 批量检查，同类检查器复用实例（重试与熔断状态全程累积）
 - **数据源fallback**: Docker Hub官方API → 镜像加速站（1ms.run/dockerproxy.net）→ 自建代理，任一源可用即返回
 - **应用更新**: 支持串行/并行两种模式
-- **面板同步**: 多面板顺序同步，故障互不影响
 
 ## 🛡️ 可靠性保障
 
 ### 错误处理机制
 
-- **分层异常体系**: 7种专门的异常类型
+- **分层异常体系**: 6种专门的异常类型
 - **自动重试**: 指数退避 + 随机抖动
 - **熔断器保护**: 防止雪崩效应
 - **优雅降级**: 单个组件失败不影响整体流程
@@ -227,7 +199,7 @@ python -c "from auto_action.core import get_config_manager; print(get_config_man
 常见问题解决：
 
 1. **导入错误**: `pip install -r requirements.txt`
-2. **配置错误**: 检查`config.json`和`config.ini`格式
+2. **配置错误**: 检查`config.json`格式
 3. **权限问题**: 确保Git仓库和目录权限正确
 4. **网络问题**: 检查网络连接和防火墙设置
 
@@ -265,7 +237,7 @@ python tests/test_refactored.py
 - 🔧 统一配置管理和日志系统
 - ⚡ 并行处理和性能优化
 - 🛡️ 完善的错误处理和重试机制
-- 🌐 多面板支持和故障隔离
+- 🗑️ 移除1Panel面板同步功能，仅维护Git仓库（面板可通过应用商店的Git仓库地址自行同步）
 
 ### v1.x.x - 原始版本
 - 基础的功能实现

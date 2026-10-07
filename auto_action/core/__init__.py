@@ -10,7 +10,6 @@
 - 重试机制 (retry)
 - 版本检查器 (version_checkers)
 - Git仓库操作 (git_repository)
-- 面板同步器 (panel_syncer)
 - 应用管理器 (app_manager)
 - 接口定义 (interfaces)
 """
@@ -23,7 +22,6 @@ from .exceptions import (
     VersionCheckError,
     AppUpdateError,
     GitOperationError,
-    SyncError,
     NetworkError,
     ValidationError
 )
@@ -33,7 +31,6 @@ from .interfaces import (
     VersionChecker,
     AppUpdater,
     GitRepository,
-    PanelSyncer,
     ConfigManager
 )
 from .version_checkers import (
@@ -43,7 +40,6 @@ from .version_checkers import (
     BatchVersionChecker
 )
 from .git_repository import EnhancedGitRepository
-from .panel_syncer import Panel1PSyncer, MultiPanelSyncer
 from .app_manager import AppManager, LocalAppUpdater
 from .retry import retry, circuit_breaker
 
@@ -64,10 +60,6 @@ __all__ = [
     'GitHubVersionChecker',
     'BatchVersionChecker',
 
-    # 面板同步器
-    'Panel1PSyncer',
-    'MultiPanelSyncer',
-
     # 应用更新器
     'LocalAppUpdater',
 
@@ -81,7 +73,6 @@ __all__ = [
     'VersionCheckError',
     'AppUpdateError',
     'GitOperationError',
-    'SyncError',
     'NetworkError',
     'ValidationError',
 
@@ -89,7 +80,6 @@ __all__ = [
     'VersionChecker',
     'AppUpdater',
     'GitRepository',
-    'PanelSyncer',
     'ConfigManager',
 
     # 装饰器

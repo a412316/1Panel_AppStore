@@ -5,7 +5,7 @@
 
 这个工具用于自动检查和更新1Panel应用商店中的应用版本，
 包括从Docker Hub和GitHub获取最新版本，更新本地配置文件，
-提交到Git仓库，并同步到1Panel面板。
+并提交到Git仓库。
 """
 
 import sys
@@ -22,7 +22,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from auto_action.core.config_manager import get_config_manager
 from auto_action.core.git_repository import EnhancedGitRepository
-from auto_action.core.panel_syncer import MultiPanelSyncer
 from auto_action.core.app_manager import AppManager
 from auto_action.core.exceptions import AppStoreException
 from auto_action.core.logger import get_logger
@@ -56,23 +55,16 @@ class ApplicationStoreUpdater:
             logger.info("验证配置文件...")
             self.config_manager.validate_configs()
 
-            # Git仓库管理器
+            # Git仓库管理器（推送认证依赖运行环境的Git凭据，如SSH密钥）
             logger.info("初始化Git仓库管理器...")
             project_root = Path(__file__).parent
-            git_config = self.config_manager.get_git_config()
-            self.git_repository = EnhancedGitRepository(str(project_root), git_config)
-
-            # 面板同步器
-            logger.info("初始化面板同步器...")
-            panel_configs = self._get_panel_configs()
-            self.panel_syncer = MultiPanelSyncer(panel_configs)
+            self.git_repository = EnhancedGitRepository(str(project_root))
 
             # 应用管理器
             logger.info("初始化应用管理器...")
             self.app_manager = AppManager(
                 config_manager=self.config_manager,
                 git_repo=self.git_repository,
-                panel_syncer=self.panel_syncer,
                 parallel_update=self.parallel_update,
                 max_workers=4
             )
@@ -82,27 +74,6 @@ class ApplicationStoreUpdater:
         except Exception as e:
             logger.error(f"❌ 组件初始化失败: {e}")
             raise AppStoreException(f"组件初始化失败: {e}")
-
-    def _get_panel_configs(self) -> Dict[str, Any]:
-        """获取面板配置"""
-        panel_configs = {}
-
-        # 获取所有已配置的面板
-        sections = self.config_manager._ini_config.sections() if hasattr(self.config_manager, '_ini_config') else []
-        panel_sections = [s for s in sections if s.startswith('host_')]
-
-        for section_name in panel_sections:
-            try:
-                panel_config = self.config_manager.get_panel_config(section_name)
-                panel_configs[section_name] = panel_config
-                logger.info(f"✅ 加载面板配置: {section_name} -> {panel_config.host}:{panel_config.port}")
-            except Exception as e:
-                logger.warning(f"⚠️  跳过无效的面板配置 {section_name}: {e}")
-
-        if not panel_configs:
-            logger.warning("没有找到有效的面板配置")
-
-        return panel_configs
 
     def run_update(self) -> Dict[str, Any]:
         """
@@ -204,7 +175,6 @@ def parse_arguments():
 
 配置文件:
   - auto_action/config.json: 应用配置文件
-  - auto_action/config.ini: 面板和Git配置文件
         """
     )
 
