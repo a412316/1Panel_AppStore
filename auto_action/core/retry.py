@@ -13,6 +13,9 @@ from .logger import get_logger
 
 logger = get_logger()
 
+# 使用系统级安全随机源（避免可预测的Mersenne Twister序列）
+_secure_rng = random.SystemRandom()
+
 
 def retry(
     max_attempts: int = 3,
@@ -54,7 +57,7 @@ def retry(
 
                     # 计算延迟时间
                     if jitter:
-                        actual_delay = current_delay * (0.5 + random.random() * 0.5)
+                        actual_delay = current_delay * (0.5 + _secure_rng.random() * 0.5)
                     else:
                         actual_delay = current_delay
 
