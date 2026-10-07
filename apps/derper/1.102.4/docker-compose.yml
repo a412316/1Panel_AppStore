@@ -1,0 +1,21 @@
+services:
+  derper:
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    volumes:
+      - /var/run/tailscale/tailscaled.sock:/var/run/tailscale/tailscaled.sock
+      - ${CERTS_PATH}:/app/certs
+    ports:
+      - "${PANEL_APP_PORT_HTTP}:80"
+      - "${PANEL_APP_PORT_HTTPS}:443"
+      - "${PANEL_APP_PORT_STUN}:3478"
+    environment:
+      - DERP_DOMAIN=${DERP_DOMAIN}
+      - DERP_CERT_MODE=manual
+      - DERP_ADDR=:443
+      - DERP_STUN=true
+      - DERP_HTTP_PORT=80
+      - DERP_VERIFY_CLIENTS=true
+    image: fredliang/derper:1.102.4
+    labels:
+      createdBy: "Apps"

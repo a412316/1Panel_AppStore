@@ -1,0 +1,19 @@
+name: HubProxy加速服务
+tags:
+  - 工具
+title: HubProxy加速服务
+description: 一个轻量级、高性能的多功能代理服务
+additionalProperties:
+  key: hubproxy
+  name: HubProxy加速服务
+  tags:
+    - Tool
+  shortDescZh: 一个轻量级、高性能的多功能代理服务
+  shortDescEn: A lightweight, high-performance multifunctional proxy service
+  type: tool
+  crossVersionUpdate: true
+  limit: 0
+  recommend: 0
+  website: https://zread.ai/sky22333/hubproxy/1-overview
+  github: https://github.com/sky22333/hubproxy
+  document: https://zread.ai/sky22333/hubproxy/1-overview

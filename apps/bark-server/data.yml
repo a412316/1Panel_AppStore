@@ -1,0 +1,19 @@
+name: Bark-Server
+tags:
+  - 工具
+title: 一款注重隐私、安全可控的自定义通知推送工具
+description: 一款注重隐私、安全可控的自定义通知推送工具
+additionalProperties:
+  key: bark-server
+  name: Bark-Server
+  tags:
+    - Tool
+  shortDescZh: 一款注重隐私、安全可控的自定义通知推送工具
+  shortDescEn: A privacy-focused, secure, and controllable customizable notification push tool.
+  type: tool
+  crossVersionUpdate: true
+  limit: 0
+  recommend: 0
+  website: https://hub.docker.com/r/finab/bark-server
+  github: https://github.com/Finb/bark-server
+  document: https://bark.day.app/#/?id=bark

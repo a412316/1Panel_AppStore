@@ -1,0 +1,19 @@
+name: Silo
+tags:
+  - 实用工具
+title: 开源对象存储服务器
+description: 一款开源的S3 兼容对象存储
+additionalProperties:
+  key: piclist
+  name: PicList
+  tags:
+    - Middleware
+  shortDescZh: S3 兼容对象存储 —— 由 PGSTY 维护的 MinIO 社区分支
+  shortDescEn: S3/MinIO Compatible Object Storage, A MinIO fork maintained by PGSTY
+  type: tool
+  crossVersionUpdate: true
+  limit: 0
+  recommend: 0
+  website: https://silo.pgsty.com/
+  github: https://github.com/pgsty/silo
+  document: https://silo.pgsty.com/docs/

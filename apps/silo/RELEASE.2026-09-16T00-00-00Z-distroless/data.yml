@@ -1,0 +1,53 @@
+additionalProperties:
+  formFields:
+    - default: "9001"
+      edit: true
+      envKey: PANEL_APP_PORT_CONSOLE
+      labelEn: Console Port
+      labelZh: Console 端口
+      required: true
+      rule: paramPort
+      type: number
+    - default: "9000"
+      edit: true
+      envKey: PANEL_APP_PORT_API
+      labelEn: API Port
+      labelZh: API 端口
+      required: true
+      rule: paramPort
+      type: number
+    - default: "username"
+      edit: true
+      envKey: PANEL_MINIO_ROOT_USER
+      labelEn: root user
+      labelZh: 管理员用户名
+      required: true
+      type: text
+    - default: "password"
+      edit: true
+      envKey: PANEL_MINIO_ROOT_PASSWORD
+      labelEn: root password
+      labelZh: 管理员密码
+      required: true
+      type: password
+    - default: "12h"
+      edit: true
+      envKey: MINIO_BROWSER_SESSION_DURATION
+      labelEn: Session duration
+      labelZh: 会话持续时间
+      required: true
+      type: text
+    - default: "https://xx.domain.com/minio/console/"
+      edit: true
+      envKey: MINIO_BROWSER_REDIRECT_URL
+      labelEn: The hostname that can be resolved by the MinIO Console
+      labelZh: MinIO Console 对外可解析的主机名
+      required: true
+      type: text
+    - default: "https://xx.domain.com"
+      edit: true
+      envKey: MINIO_SERVER_URL
+      labelEn: The hostname that can be resolved by the MinIO
+      labelZh: MinIO 对外可解析的主机名
+      required: true
+      type: text

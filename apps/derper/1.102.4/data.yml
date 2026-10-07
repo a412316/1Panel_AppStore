@@ -1,0 +1,38 @@
+additionalProperties:
+  formFields:
+    - default: derper.crazy1226.xyz
+      edit: true
+      envKey: DERP_DOMAIN
+      labelEn: Your Domain
+      labelZh: 域名
+      required: true
+      type: text
+    - default: 8081
+      edit: true
+      envKey: PANEL_APP_PORT_HTTP
+      labelEn: http port
+      labelZh: http 端口
+      required: false
+      type: text
+    - default: 8082
+      edit: true
+      envKey: PANEL_APP_PORT_HTTPS
+      labelEn: https port
+      labelZh: https 端口
+      required: false
+      type: text
+    - default: 3478
+      edit: true
+      envKey: PANEL_APP_PORT_STUN
+      labelEn: stun port
+      labelZh: stun 端口
+      required: false
+      type: text
+    - default: ./certs
+      edit: true
+      envKey: CERTS_PATH
+      labelEn: Certs folder path
+      labelZh: 证书文件夹路径
+      required: true
+      type: text
+

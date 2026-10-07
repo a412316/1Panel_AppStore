@@ -1,0 +1,63 @@
+{
+    "aria2-pro": {
+        "type": "docker",
+        "image": "p3terx/aria2-pro",
+        "version": "latest",
+        "prefix": false
+    },
+    "filebrowser": {
+        "type": "docker",
+        "image": "filebrowser/filebrowser",
+        "version": "2.63.23",
+        "prefix": true
+    },
+    "derper": {
+        "type": "docker",
+        "image": "fredliang/derper",
+        "version": "1.102.4",
+        "prefix": false
+    },
+    "hubproxy": {
+        "type": "github",
+        "image": "sky22333/hubproxy",
+        "version": "latest",
+        "prefix": false
+    },
+    "music-tag-web": {
+        "type": "docker",
+        "image": "xhongc/music_tag_web",
+        "version": "2.7.8",
+        "prefix": false
+    },
+    "piclist": {
+        "type": "docker",
+        "image": "kuingsmile/piclist",
+        "version": "2.4.2",
+        "prefix": true
+    },
+    "sub-store": {
+        "type": "docker",
+        "image": "xream/sub-store",
+        "version": "2.42.2",
+        "prefix": false
+    },
+    "sun-panel": {
+        "type": "docker",
+        "image": "hslr/sun-panel",
+        "version": "1.8.1",
+        "prefix": false
+    },
+    "silo": {
+        "type": "docker",
+        "image": "pgsty/silo",
+        "version": "RELEASE.2026-09-16T00-00-00Z-distroless",
+        "prefix": false,
+        "tag_scheme": "minio_release"
+    },
+    "bark-server": {
+        "type": "docker",
+        "image": "finab/bark-server",
+        "version": "2.3.7",
+        "prefix": true
+    }
+}
