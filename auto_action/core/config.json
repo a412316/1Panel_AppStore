@@ -14,7 +14,7 @@
     "derper": {
         "type": "docker",
         "image": "fredliang/derper",
-        "version": "1.102.4",
+        "version": "1.102.5",
         "prefix": false
     },
     "hubproxy": {
