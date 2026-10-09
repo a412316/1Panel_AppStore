@@ -1,0 +1,47 @@
+# 必须声明配置版本，当前最新为 8
+config-version: 8
+
+server:
+  # 监听所有网络接口 (0.0.0.0)，允许外部访问
+  host: "" 
+  port: 8317
+  trusted-proxies:
+    - "127.0.0.1"
+
+# 管理 API 配置 (用于对接 CPA-Manager 等第三方面板)
+management:
+  allow-remote: true # 允许远程访问管理接口
+  # ⚠️ 必须修改为高强度随机字符串！所有管理请求都需要携带此 Key。
+  secret-key: "YOUR_SUPER_SECRET_MANAGEMENT_KEY_CHANGE_ME-必须修改此处" 
+  disable-control-panel: false # 保留内置面板下载功能
+
+# 客户端访问密钥 (调用此代理所需的 API Key，非上游模型的 Key)
+access:
+  api-keys:
+    - "sk-cliproxy-your-client-key-1-必须修改此处"
+    - "sk-cliproxy-your-client-key-2-必须修改此处"
+
+# OAuth 凭证存储目录 (Docker 部署时需确保此目录被挂载持久化)
+oauth:
+  auth-dir: "/root/.cli-proxy-api" 
+
+# 基础路由与重试策略 (保持默认即可应对大多数情况)
+routing:
+  strategy: "round-robin"
+  retry:
+    request-retry: 3
+    max-retry-interval: 30
+
+# 插件
+plugins:
+  enabled: true
+  dir: "plugins"
+  configs: {}
+
+# 日志与观测性 (VPS 部署优化：防止日志撑爆磁盘)
+observability:
+  logs:
+    debug: false # 生产环境务必关闭 debug，否则日志量极大
+    logging-to-file: true # 开启文件日志
+    logs-max-total-size-mb: 100 # 限制日志总大小，超过自动清理旧日志
+    request-log: false # 除非需要审计，否则关闭详细请求日志以节省 I/O 和磁盘
