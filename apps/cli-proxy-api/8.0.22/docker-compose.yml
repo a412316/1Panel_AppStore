@@ -10,6 +10,7 @@ services:
       - ./data/config.yaml:/CLIProxyAPI/config.yaml
       - ./data/data:/root/.cli-proxy-api
       - ./data/logs:/CLIProxyAPI/logs
+      - ./data/plugins:/CLIProxyAPI/plugins
     image: eceasy/cli-proxy-api:v8.0.22
     labels:  
       createdBy: "Apps"
