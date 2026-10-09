@@ -54,6 +54,12 @@
         "prefix": false,
         "tag_scheme": "minio_release"
     },
+    "cli-proxy-api": {
+        "type": "docker",
+        "image": "eceasy/cli-proxy-api",
+        "version": "8.0.22",
+        "prefix": true
+    },
     "bark-server": {
         "type": "docker",
         "image": "finab/bark-server",
