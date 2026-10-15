@@ -14,7 +14,7 @@
     "derper": {
         "type": "docker",
         "image": "fredliang/derper",
-        "version": "1.102.5",
+        "version": "1.104.1",
         "prefix": false
     },
     "hubproxy": {
@@ -26,19 +26,19 @@
     "music-tag-web": {
         "type": "docker",
         "image": "xhongc/music_tag_web",
-        "version": "2.7.9",
+        "version": "2.8.0",
         "prefix": false
     },
     "piclist": {
         "type": "docker",
         "image": "kuingsmile/piclist",
-        "version": "2.4.2",
+        "version": "3.0.2",
         "prefix": true
     },
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.42.3",
+        "version": "2.42.4",
         "prefix": false
     },
     "sun-panel": {
@@ -57,13 +57,13 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.22",
+        "version": "8.0.29",
         "prefix": true
     },
     "bark-server": {
         "type": "docker",
         "image": "finab/bark-server",
-        "version": "2.3.7",
+        "version": "2.3.9",
         "prefix": true
     }
 }
