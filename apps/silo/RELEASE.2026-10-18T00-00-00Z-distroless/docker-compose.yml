@@ -11,7 +11,7 @@ services:
             MINIO_ROOT_PASSWORD: ${PANEL_MINIO_ROOT_PASSWORD}
             MINIO_ROOT_USER: ${PANEL_MINIO_ROOT_USER}
             MINIO_SERVER_URL: ${MINIO_SERVER_URL}
-        image: pgsty/silo:RELEASE.2026-09-16T00-00-00Z-distroless
+        image: pgsty/silo:RELEASE.2026-10-18T00-00-00Z-distroless
         labels:
             createdBy: Apps
         logging:
