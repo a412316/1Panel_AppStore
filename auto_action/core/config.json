@@ -57,7 +57,7 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.45",
+        "version": "8.0.48",
         "prefix": true
     },
     "bark-server": {
