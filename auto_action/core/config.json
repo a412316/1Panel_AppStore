@@ -26,7 +26,7 @@
     "music-tag-web": {
         "type": "docker",
         "image": "xhongc/music_tag_web",
-        "version": "2.8.0",
+        "version": "2.8.1",
         "prefix": false
     },
     "piclist": {
@@ -57,7 +57,7 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.48",
+        "version": "8.0.53",
         "prefix": true
     },
     "bark-server": {
