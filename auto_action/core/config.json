@@ -38,7 +38,7 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.2",
+        "version": "2.44.5",
         "prefix": false
     },
     "sun-panel": {
@@ -57,13 +57,13 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.53",
+        "version": "8.0.58",
         "prefix": true
     },
     "bark-server": {
         "type": "docker",
         "image": "finab/bark-server",
-        "version": "2.3.9",
+        "version": "2.4.0",
         "prefix": true
     }
 }
