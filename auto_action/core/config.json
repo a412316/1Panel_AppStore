@@ -38,7 +38,7 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.6",
+        "version": "2.44.8",
         "prefix": false
     },
     "sun-panel": {
@@ -50,14 +50,14 @@
     "silo": {
         "type": "docker",
         "image": "pgsty/silo",
-        "version": "RELEASE.2026-11-09T00-00-00Z-distroless",
+        "version": "RELEASE.2026-11-12T00-00-00Z-distroless",
         "prefix": false,
         "tag_scheme": "minio_release"
     },
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.62",
+        "version": "8.0.67",
         "prefix": true
     },
     "bark-server": {
