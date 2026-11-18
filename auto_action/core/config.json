@@ -14,7 +14,7 @@
     "derper": {
         "type": "docker",
         "image": "fredliang/derper",
-        "version": "1.104.5",
+        "version": "1.104.7",
         "prefix": false
     },
     "hubproxy": {
@@ -38,7 +38,7 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.14",
+        "version": "2.44.16",
         "prefix": false
     },
     "sun-panel": {
@@ -57,7 +57,7 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.73",
+        "version": "8.0.77",
         "prefix": true
     },
     "bark-server": {
