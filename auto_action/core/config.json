@@ -26,7 +26,7 @@
     "music-tag-web": {
         "type": "docker",
         "image": "xhongc/music_tag_web",
-        "version": "2.8.1",
+        "version": "2.8.2",
         "prefix": false
     },
     "piclist": {
@@ -38,7 +38,7 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.16",
+        "version": "2.44.20",
         "prefix": false
     },
     "sun-panel": {
@@ -57,7 +57,7 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.0.77",
+        "version": "8.0.79",
         "prefix": true
     },
     "bark-server": {
