@@ -38,7 +38,7 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.20",
+        "version": "2.44.23",
         "prefix": false
     },
     "sun-panel": {
