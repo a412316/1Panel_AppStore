@@ -11,7 +11,7 @@ services:
       - ./data/data:/root/.cli-proxy-api
       - ./data/logs:/CLIProxyAPI/logs
       - ./data/plugins:/CLIProxyAPI/plugins
-    image: eceasy/cli-proxy-api:v8.1.2
+    image: eceasy/cli-proxy-api:v8.1.4
     labels:  
       createdBy: "Apps"
 
