@@ -38,13 +38,13 @@
     "sub-store": {
         "type": "docker",
         "image": "xream/sub-store",
-        "version": "2.44.30",
+        "version": "2.44.31",
         "prefix": false
     },
     "sun-panel": {
         "type": "docker",
         "image": "hslr/sun-panel",
-        "version": "1.8.1",
+        "version": "2.0.2",
         "prefix": false
     },
     "silo": {
@@ -57,7 +57,7 @@
     "cli-proxy-api": {
         "type": "docker",
         "image": "eceasy/cli-proxy-api",
-        "version": "8.1.4",
+        "version": "8.1.7",
         "prefix": true
     },
     "bark-server": {
